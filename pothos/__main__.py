@@ -8,8 +8,8 @@ def run_schedule():
     configure_logging()
 
     status()
-    schedule.every().hour.do(status)
-    schedule.every().day.at('01:00').do(reconnect)
+    schedule.every(10).minutes.do(status)
+    schedule.every(4).hours.do(reconnect)
 
     try:
         while True:
