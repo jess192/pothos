@@ -1,19 +1,22 @@
 [tool.poetry]
 name = "pothos"
 version = "0.1.0"
-description = "Scheduler to reconnect NordVPN to a new server"
+description = "NordVPN Manager"
 authors = ["Jess <79601842+jess192@users.noreply.github.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 schedule = "^1.1.0"
 loguru = "^0.6.0"
+termcolor = "^1.1.0"
+requests = "^2.27.1"
+halo = "^0.0.31"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^6.2.5"
 
 [tool.poetry.scripts]
-pothos = "pothos.__main__:run_schedule"
+pothos = "pothos.main:run_pothos"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
