@@ -17,6 +17,7 @@ def pothos_argument_parser(default_country: Country, default_status: Interval, d
     )
 
     parser.add_argument('-v', '--version', action='version', version=f'Pothos version {pothos_version}')
+
     parser.add_argument('-p', '--persist',
                         help='By default Pothos clears the terminal on each status refresh.\n'
                              'Set -p to disable this feature.\n ',
@@ -28,7 +29,7 @@ def pothos_argument_parser(default_country: Country, default_status: Interval, d
 
     parser.add_argument('-c', '--country',
                         help='Set which country you want to connect to.\n'
-                             f'Default country: {to_color(default_country)}\n ',
+                             f'Default country: {to_color("Local Country as detected by NordVPN")}\n ',
                         default=default_country,
                         metavar='name')
 

@@ -1,40 +1,36 @@
+import sys
+
 import schedule
 import time
-import sys
 import os
 import re
 from typing import Callable
 from datetime import datetime
 from pothos.logging import logger
 from pothos.utils import get_external_ip, to_color, color_print
-from pothos.types import Persist, ShowCountries, Country, Status, Reconnect, Quantity, Unit, Interval, NordVPNConnect
+from pothos.types import Persist, Country, Status, Reconnect, Quantity, Unit, Interval, NordVPNConnect
 from pothos.nord_vpn import NordVPN
 
 
-class Manager:
-    def __init__(self, persist: Persist, show_countries: ShowCountries, country: Country,
-                 status: Status, reconnect: Reconnect):
-        self._nordvpn = NordVPN()
-        self._schedule = schedule
+class NordVPNManager:
+    def __init__(self, persist: Persist, country: Country, status: Status, reconnect: Reconnect):
+        self._is_valid_country(country)
+        self._country: Country = country
+        self._schedule: schedule = schedule
         self._tested_nordvpn_version: str = '3.12.5'
-        self._user_nordvpn_version: str = self._nordvpn.version
-        self._list_of_countries: list[str] = self._nordvpn.countries
-        self._show_countries(show_countries)
+        self._user_nordvpn_version: str = NordVPN.get_version()
         self._persist: Persist = persist
-        self._country: Country = country if self._is_valid_country(country) else None
         self._status: Interval = self._set_status_interval(status)
         self._reconnect: Interval = self._set_reconnect_interval(reconnect)
         self._prev_external_ip: str = '-'
         self._curr_external_ip: str = get_external_ip()
 
-    def _show_countries(self, show_countries: ShowCountries) -> None:
-        if show_countries:
-            self._print_country_list()
-
-    def _is_valid_country(self, country: Country) -> bool:
-        if country not in self._list_of_countries:
+    @staticmethod
+    def _is_valid_country(country: Country) -> bool:
+        if country not in NordVPN.get_countries() and country is not None:
             color_print(f'{country} is not a valid country.', 'red')
-            self._print_country_list()
+            NordVPNManager.print_country_list()
+            sys.exit()
         return True
 
     @staticmethod
@@ -60,15 +56,14 @@ class Manager:
 
             return {'quantity': quantity, 'unit': unit}
 
-    def _print_country_list(self) -> None:
+    @staticmethod
+    def print_country_list() -> None:
         color_print('Choose a country from this list:')
 
-        for count, country in enumerate(sorted(self._list_of_countries), 1):
+        for count, country in enumerate(sorted(NordVPN.get_countries()), 1):
             print(country.ljust(25), end='')
             if count % 5 == 0:
                 print()
-
-        sys.exit()
 
     def _print_header(self) -> None:
         status_color: str = 'green' if self._tested_nordvpn_version == self._user_nordvpn_version else 'yellow'
@@ -92,13 +87,11 @@ class Manager:
 
         for item in detail_list:
             print(f'{item[0].ljust(40, "-")} {item[1]}')
-
         print()
 
     def _connect(self) -> None:
         self._print_details()
-
-        connection_status: NordVPNConnect = self._nordvpn.connect(self._country)
+        connection_status: NordVPNConnect = NordVPN.connect(self._country)
         print()
 
         if connection_status['connected']:
@@ -113,9 +106,7 @@ class Manager:
 
     def _get_status(self) -> None:
         self._print_details()
-
-        status: str = self._nordvpn.status()
-
+        status: str = NordVPN.status()
         print(status, '\n')
 
         if re.search('Disconnected', status):
@@ -137,7 +128,6 @@ class Manager:
         try:
             self._setup_schedule(self._status, self._get_status)
             self._setup_schedule(self._reconnect, self._connect)
-
             self._print_header()
             self._connect()
 

@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import TypedDict, Callable
+from typing import TypedDict, Callable, Union
 
 
 Persist = bool
@@ -30,8 +30,8 @@ class MenuArgs(TypedDict):
     help: Callable
 
 
-class Defaults(TypedDict):
-    country: Country
+class BaseValues(TypedDict):
+    country: Union[Country | None]
     status: Interval
     reconnect: Interval
 
