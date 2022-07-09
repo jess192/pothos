@@ -51,8 +51,8 @@ class NordVPN:
 
     @staticmethod
     def connect(country: str) -> NordVPNConnect:
-        selected_country: str = f' {country}' if country else ''
-        subprocess_connect_command: str = f'nordvpn c{selected_country}'
+        selected_country: str = country or ''
+        subprocess_connect_command: str = f'nordvpn c {selected_country}'.rstrip()
         spinner = Halo(text='Connecting...')
         is_connected: bool = False
         debug: list[str] = []

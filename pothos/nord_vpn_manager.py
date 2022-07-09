@@ -27,7 +27,7 @@ class NordVPNManager:
 
     @staticmethod
     def _is_valid_country(country: Country) -> bool:
-        if country not in NordVPN.get_countries() and country is not None:
+        if country and country not in NordVPN.get_countries():
             color_print(f'{country} is not a valid country.', 'red')
             NordVPNManager.print_country_list()
             sys.exit()
@@ -80,10 +80,12 @@ class NordVPNManager:
             ('Status Last Updated: ', datetime.now().strftime("%m/%d/%Y %H:%M:%S")),
             ('Previous External IP: ', to_color(self._prev_external_ip, 'yellow')),
             ('Current External IP: ', to_color(self._curr_external_ip, 'green')),
-            ('Country: ', to_color(self._country)),
             ('Status Interval: ', to_color(f'{self._status["quantity"]}{self._status["unit"].value}')),
             ('Reconnect Interval: ', to_color(f'{self._reconnect["quantity"]}{self._reconnect["unit"].value}'))
         ]
+
+        if self._country:
+            detail_list.append(('Country: ', to_color(self._country)))
 
         for item in detail_list:
             print(f'{item[0].ljust(40, "-")} {item[1]}')

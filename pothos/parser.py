@@ -6,6 +6,7 @@ from pothos.utils import to_color
 
 def pothos_argument_parser(default_country: Country, default_status: Interval, default_reconnect: Interval) -> MenuArgs:
     pothos_version: str = version('pothos')
+    default_country_str: str = default_country or 'Fastest connecting country as chosen by NordVPN'
     default_status_str: str = f'{default_status["quantity"]}{default_status["unit"].value}'
     default_reconnect_str: str = f'{default_reconnect["quantity"]}{default_reconnect["unit"].value}'
     quantity_str: str = to_color('quantity', 'green')
@@ -29,7 +30,7 @@ def pothos_argument_parser(default_country: Country, default_status: Interval, d
 
     parser.add_argument('-c', '--country',
                         help='Set which country you want to connect to.\n'
-                             f'Default country: {to_color("Fastest connecting country as chosen by NordVPN")}\n ',
+                             f'Default country: {to_color(default_country_str)}\n ',
                         default=default_country,
                         metavar='name')
 
