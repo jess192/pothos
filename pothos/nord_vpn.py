@@ -5,29 +5,31 @@ from pothos.types import NordVPNConnect
 
 
 class NordVPN:
-    def __init__(self):
-        self.version = self._get_version()
-        self.countries = self._get_countries()
+    @staticmethod
+    def _get_update_alert() -> str:
+        return 'A new version of NordVPN is available! Please update the application.'
 
     @staticmethod
-    def _get_version() -> str:
+    def get_version() -> str:
         version_raw: subprocess.CompletedProcess = subprocess.run(
             'nordvpn version', shell=True, text=True, capture_output=True
         )
 
         version: str = version_raw.stdout.strip() \
+            .replace(NordVPN._get_update_alert(), '') \
             .replace('\n-', '').strip('-') \
             .replace('NordVPN Version', '').strip()
 
         return version
 
     @staticmethod
-    def _get_countries() -> list[str]:
+    def get_countries() -> list[str]:
         countries_raw: subprocess.CompletedProcess = subprocess.run(
             'nordvpn countries list', shell=True, text=True, capture_output=True
         )
 
         country_list: list[str] = countries_raw.stdout.strip() \
+            .replace(NordVPN._get_update_alert(), '') \
             .replace('\n-', '').replace('\n', '\t') \
             .strip('-').strip() \
             .replace('\t\t', '\t').replace('\t\t', '\t') \
@@ -49,12 +51,15 @@ class NordVPN:
 
     @staticmethod
     def connect(country: str) -> NordVPNConnect:
+        selected_country: str = country or ''
+        subprocess_connect_command: str = f'nordvpn c {selected_country}'.rstrip()
         spinner = Halo(text='Connecting...')
         is_connected: bool = False
         debug: list[str] = []
 
-        p: subprocess.Popen = subprocess.Popen(f'nordvpn c {country}', shell=True, stdout=subprocess.PIPE)
+        p: subprocess.Popen = subprocess.Popen(subprocess_connect_command, shell=True, stdout=subprocess.PIPE)
         spinner.start()
+
         while True:
             line_raw: str = p.stdout.readline().decode('utf-8').strip()
             line: str = line_raw.replace('-', '').replace('/', '').replace('\\', '').replace('|', '').strip()

@@ -41,15 +41,15 @@ $ poetry run pothos
 ```
 
 ## Flags
-| Flag    | Title           | Description                                                                      |
-|---------|-----------------|----------------------------------------------------------------------------------|
-| -h      | help            | Show help menu                                                                   |
-| -v      | version         | Show `pothos` version                                                            |
-| -p      | persist         | By default Pothos clears the terminal on each status refresh. Set -p to disable. |
-| -l      | list            | Show list of countries you can connect to.                                       |
-| -c name | country name    | Set which country you want to connect to. Default: United_States                 |
-| -s time | status interval | Interval to check NordVPN status. Default: 5m                                    |
-| -r time | reconnect time  | Interval to reconnect to NordVPN. Default: 4h                                    |
+| Flag    | Title           | Description                                                                                             |
+|---------|-----------------|---------------------------------------------------------------------------------------------------------|
+| -h      | help            | Show help menu                                                                                          |
+| -v      | version         | Show `pothos` version                                                                                   |
+| -p      | persist         | By default Pothos clears the terminal on each status refresh. Set -p to disable.                        |
+| -l      | list            | Show list of countries you can connect to.                                                              |
+| -c name | country name    | Set which country you want to connect to. <br/>Default: Fastest connecting country as chosen by NordVPN |
+| -s time | status interval | Interval to check NordVPN status. Default: 5m                                                           |
+| -r time | reconnect time  | Interval to reconnect to NordVPN. Default: 4h                                                           |
 
 
 ## Examples
@@ -58,7 +58,7 @@ $ poetry run pothos
 $ pothos -c Canada -s 5s -r 3h
 ```
 
-> Connect to a NordVPN server in the United_States (default). Show a status update every 5 ninutes (default) and connect to a new server every 20 minutes. Persist is set, so the terminal will not clear on each status update.
+> Connect to a NordVPN server in a country that NordVPN chooses. Show a status update every 5 ninutes (default) and connect to a new server every 20 minutes. Persist is set, so the terminal will not clear on each status update.
 ```shell
 $ pothos -r 20m -p
 ```
