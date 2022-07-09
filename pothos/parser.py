@@ -29,7 +29,7 @@ def pothos_argument_parser(default_country: Country, default_status: Interval, d
 
     parser.add_argument('-c', '--country',
                         help='Set which country you want to connect to.\n'
-                             f'Default country: {to_color("Local Country as detected by NordVPN")}\n ',
+                             f'Default country: {to_color("Fastest connecting country as chosen by NordVPN")}\n ',
                         default=default_country,
                         metavar='name')
 

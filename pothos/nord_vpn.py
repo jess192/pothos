@@ -6,13 +6,17 @@ from pothos.types import NordVPNConnect
 
 class NordVPN:
     @staticmethod
+    def _get_update_alert() -> str:
+        return 'A new version of NordVPN is available! Please update the application.'
+
+    @staticmethod
     def get_version() -> str:
         version_raw: subprocess.CompletedProcess = subprocess.run(
             'nordvpn version', shell=True, text=True, capture_output=True
         )
 
         version: str = version_raw.stdout.strip() \
-            .replace('A new version of NordVPN is available! Please update the application.', '') \
+            .replace(NordVPN._get_update_alert(), '') \
             .replace('\n-', '').strip('-') \
             .replace('NordVPN Version', '').strip()
 
@@ -25,7 +29,7 @@ class NordVPN:
         )
 
         country_list: list[str] = countries_raw.stdout.strip() \
-            .replace('A new version of NordVPN is available! Please update the application.', '') \
+            .replace(NordVPN._get_update_alert(), '') \
             .replace('\n-', '').replace('\n', '\t') \
             .strip('-').strip() \
             .replace('\t\t', '\t').replace('\t\t', '\t') \
