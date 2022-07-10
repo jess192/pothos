@@ -41,15 +41,16 @@ $ poetry run pothos
 ```
 
 ## Flags
-| Flag    | Title           | Description                                                                                             |
-|---------|-----------------|---------------------------------------------------------------------------------------------------------|
-| -h      | help            | Show help menu                                                                                          |
-| -v      | version         | Show `pothos` version                                                                                   |
-| -p      | persist         | By default Pothos clears the terminal on each status refresh. Set -p to disable.                        |
-| -l      | list            | Show list of countries you can connect to.                                                              |
-| -c name | country name    | Set which country you want to connect to. <br/>Default: Fastest connecting country as chosen by NordVPN |
-| -s time | status interval | Interval to check NordVPN status. Default: 5m                                                           |
-| -r time | reconnect time  | Interval to reconnect to NordVPN. Default: 4h                                                           |
+| Flag    | Title                 | Description                                                                                             |
+|---------|-----------------------|---------------------------------------------------------------------------------------------------------|
+| -h      | help                  | Show help menu                                                                                          |
+| -v      | version               | Show `pothos` version                                                                                   |
+| -p      | persist               | By default Pothos clears the terminal on each status refresh. Set -p to disable.                        |
+| -l      | list                  | Show list of countries you can connect to.                                                              |
+| -f      | force service restart | Attempt to restart NordVPN daemon if NordVPN is not connected.                                          |
+| -c name | country name          | Set which country you want to connect to. <br/>Default: Fastest connecting country as chosen by NordVPN |
+| -s time | status interval       | Interval to check NordVPN status. Default: 5m                                                           |
+| -r time | reconnect time        | Interval to reconnect to NordVPN. Default: 4h<br/>                                                      |
 
 
 ## Examples

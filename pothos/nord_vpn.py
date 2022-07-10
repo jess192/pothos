@@ -80,3 +80,23 @@ class NordVPN:
             'connected': is_connected,
             'debug': debug
         }
+
+    @staticmethod
+    def is_connected() -> bool:
+        is_connected: bool = False
+        status_raw: subprocess.CompletedProcess = subprocess.run(
+            'nordvpn status', shell=True, text=True, capture_output=True
+        )
+        command_output: str = status_raw.stdout.strip()
+
+        if re.search('Status: Connected', command_output):
+            is_connected = True
+        return is_connected
+
+    @staticmethod
+    def is_daemon_enabled() -> bool:
+        status_raw = subprocess.run(
+            'systemctl is-enabled nordvpnd.service', shell=True, text=True, capture_output=True
+        )
+        command_output: str = status_raw.stdout.strip()
+        return command_output == 'enabled'
