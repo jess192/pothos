@@ -1,5 +1,4 @@
 import sys
-
 from termcolor import cprint
 from pothos.nord_vpn_manager import NordVPNManager
 from pothos.logging import configure_logging
@@ -21,7 +20,10 @@ def run_pothos():
     )
 
     try:
-        if menu_args['show_countries']:
+        if menu_args['force_service_restart']:
+            NordVPNManager.force_service_restart()
+            sys.exit()
+        elif menu_args['show_countries']:
             NordVPNManager.print_country_list()
             sys.exit()
         else:

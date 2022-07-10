@@ -1,3 +1,4 @@
+import subprocess
 import sys
 
 import schedule
@@ -64,6 +65,20 @@ class NordVPNManager:
             print(country.ljust(25), end='')
             if count % 5 == 0:
                 print()
+
+    @staticmethod
+    def force_service_restart() -> None:
+        print('Checking to see whether NordVPN is disconnected...')
+        if not NordVPN.is_connected():
+            print('Checking to see whether the NordVPN daemon is available and enabled...')
+            if NordVPN.is_daemon_enabled():
+                print('Looks like NordVPN is disconnected and NordVPN daemon is currently enabled. '
+                      '\nAttempting to restart it, this may take a while...')
+                subprocess.run('sudo systemctl restart nordvpnd.service', shell=True, text=True, capture_output=True)
+                print('Service restart done.')
+        else:
+            print('\nSeems NordVPN is still connected.  '
+                  '\nA service restart is unreliable while NordVPN is still in a connected status.')
 
     def _print_header(self) -> None:
         status_color: str = 'green' if self._tested_nordvpn_version == self._user_nordvpn_version else 'yellow'

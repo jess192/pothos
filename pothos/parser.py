@@ -54,9 +54,16 @@ def pothos_argument_parser(default_country: Country, default_status: Interval, d
                         default=default_reconnect_str,
                         metavar='time')
 
+    parser.add_argument('-f', '--force',
+                        help='Sometimes NordVPN can\'t connect after an internet connection change.\n'
+                             'This attempts to rectify by restarting the NordVPN service.'
+                             '(linux only, requires sudo privileges).\n ',
+                        action='store_true')
+
     args: argparse.Namespace = parser.parse_args()
 
     return {
+        'force_service_restart': args.force,
         'persist': args.persist,
         'show_countries': args.list,
         'country': args.country,
