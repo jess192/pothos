@@ -1,8 +1,5 @@
 import sys
-
 from termcolor import cprint
-
-from pothos.nord_vpn import NordVPN
 from pothos.nord_vpn_manager import NordVPNManager
 from pothos.logging import configure_logging
 from pothos.types import Unit, MenuArgs, BaseValues
