@@ -72,7 +72,7 @@ class NordVPNManager:
         if not NordVPN.is_connected():
             print('Checking to see whether the NordVPN daemon is available and enabled...')
             if NordVPN.is_daemon_enabled():
-                print('Looks like NordVPN is disconnected and NordVPN daemon is currently enabled. '
+                print('Looks like NordVPN is disconnected (or hanging) and NordVPN daemon is currently enabled. '
                       '\nAttempting to restart it, this may take a while...')
                 subprocess.run('sudo systemctl restart nordvpnd.service', shell=True, text=True, capture_output=True)
                 print('Service restart done.')
