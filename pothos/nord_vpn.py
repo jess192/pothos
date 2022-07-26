@@ -1,6 +1,8 @@
 import subprocess
 import re
 from halo import Halo
+from termcolor import cprint
+
 from pothos.types import NordVPNConnect
 
 
@@ -84,14 +86,21 @@ class NordVPN:
     @staticmethod
     def is_connected() -> bool:
         is_connected: bool = False
-        status_raw: subprocess.CompletedProcess = subprocess.run(
-            'nordvpn status', shell=True, text=True, capture_output=True
-        )
-        command_output: str = status_raw.stdout.strip()
+        timeout: int = 10
 
-        if re.search('Status: Connected', command_output):
-            is_connected = True
-        return is_connected
+        try:
+            status_raw: subprocess.CompletedProcess = subprocess.run(
+                'nordvpn status', shell=True, text=True, capture_output=True, timeout=timeout
+            )
+            command_output: str = status_raw.stdout.strip()
+
+            if re.search('Status: Connected', command_output):
+                is_connected = True
+        except subprocess.TimeoutExpired:
+            cprint(f'NordVPN status command timed out after {timeout}s... '
+                   f'looks like NordVPN is hanging.', 'yellow', attrs=['bold'])
+        finally:
+            return is_connected
 
     @staticmethod
     def is_daemon_enabled() -> bool:
