@@ -6,38 +6,40 @@
 
 
 ## About
-`pothos` is a simple command line tool for managing NordVPN connections.
+`pothos` is a simple command line tool for managing NordVPN connections on a `Fedora Linux` setup. 
+
+Pothos was built using `Fedora Linux 36`. Other flavors of Linux may work as well, but have not been tested.
 
 ## Requirements
-- [pipx](https://github.com/pypa/pipx "pipx") or [poetry](https://github.com/python-poetry/poetry "poetry")
-- Python 3.10^
-- NordVPN
+- [pipx](https://github.com/pypa/pipx) or [Poetry](https://github.com/python-poetry/poetry)
+- [Python](https://www.python.org/) - `3.10`
+- [NordVPN for Linux](https://nordvpn.com/download/linux/) - `3.16.5`
 
 ## Install
 
 With pipx:
 ```shell
-$ pipx install git+https://github.com/jess192/pothos.git
+pipx install git+https://github.com/jess192/pothos.git
 ```
 
 or
 
 Local build with poetry:
 ```shell
-$ git clone https://github.com/jess192/pothos.git
-$ poetry install
-$ poetry run pothos
+git clone https://github.com/jess192/pothos.git
+poetry install
+poetry run pothos
 ```
 
 ## Usage
 With pipx:
 ```shell
-$ pothos
+pothos
 ```
 
 With poetry:
 ```shell
-$ poetry run pothos
+poetry run pothos
 ```
 
 ## Flags
@@ -56,12 +58,12 @@ $ poetry run pothos
 ## Examples
 > Connect to a NordVPN server in Canada. Show a status update every 5 seconds and connect to a new server every 3 hours.
 ```shell
-$ pothos -c Canada -s 5s -r 3h
+pothos -c Canada -s 5s -r 3h
 ```
 
 > Connect to a NordVPN server in a country that NordVPN chooses. Show a status update every 5 ninutes (default) and connect to a new server every 20 minutes. Persist is set, so the terminal will not clear on each status update.
 ```shell
-$ pothos -r 20m -p
+pothos -r 20m -p
 ```
 
 
